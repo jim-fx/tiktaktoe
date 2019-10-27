@@ -9,6 +9,11 @@
 </head>
 
 <style>
+    body {
+        font-family: "Arial";
+
+    }
+
     table {
         position: fixed;
         top: 50vh;
@@ -36,6 +41,8 @@
         height: 40px;
         border-radius: 4px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        outline-color: rgba(0, 0, 0, 0);
+        transition: outline-color 0.3s ease, transform 0.3s ease;
     }
 
     td.cell-is-x {
@@ -47,14 +54,14 @@
     }
 
     td.cell-won {
-        outline: solid thick green;
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+        transform: scale(0.3);
     }
 
     #current-player {
         position: fixed;
         top: 29px;
         right: 100px;
-        font-family: "Arial";
         font-weight: bolder;
     }
 
@@ -75,6 +82,27 @@
     #current-player.player-y::after {
         background-color: yellow;
     }
+
+    #input-grid-size {
+        position: absolute;
+        left: 50vw;
+        transform: translateX(-50%);
+        text-align: center;
+        top: 27px;
+        outline: none;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        border-style: none;
+        padding: 5px;
+        font-size: 1em;
+    }
+
+    label[for="grid-size"] {
+        position: absolute;
+        left: calc(50vw - 80px);
+        top: 32px;
+        transform: translateX(-50%);
+    }
 </style>
 
 <body>
@@ -85,6 +113,9 @@
     <div id="current-player">
         next player is:
     </div>
+
+    <input type="number" value="3" max="10" min="1" name="grid-size" id="input-grid-size">
+    <label for="grid-size">Grid Size</label>
 
     <script src="./app-esnext.js"></script>
 </body>

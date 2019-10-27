@@ -9,8 +9,11 @@ function stateCheck() {
     })
 
     if (wins) {
-        wins.forEach(({ element }) => element.classList.add("cell-won"))
-        setTimeout(() => confirm("Player " + (wins[0].state === "x" ? "yellow" : "blue") + " won") && init(), 20);
+        wins.forEach(({ element }, i) => {
+            element.style.transitionDelay = (i * 50) + "ms";
+            element.classList.add("cell-won")
+        })
+        setTimeout(() => confirm("Player " + (wins[0].state === "x" ? "yellow" : "blue") + " won") && init(), (wins.length * 50 + 50));
     }
 
 }
@@ -29,9 +32,17 @@ const switchPlayers = (() => {
 
 const init = (() => {
 
-    const gridSize = 3;
+    let gridSize = ("gridSize" in localStorage) ? parseInt(localStorage.gridSize) : 3;
 
     const table = document.querySelector("table");
+
+    const inputGridSize = document.getElementById("input-grid-size");
+    inputGridSize.value = gridSize;
+    inputGridSize.addEventListener("input", () => {
+        gridSize = parseInt(inputGridSize.value);
+        localStorage.gridSize = gridSize;
+        init();
+    })
 
     return () => {
 
@@ -39,6 +50,8 @@ const init = (() => {
 
         //Initialize new empty grid
         grid = new Array(gridSize).fill(null).map(e => []).map(e => new Array(gridSize).fill(null).map(e => new Object({ element: null, state: null })))
+
+        let cellAmount = gridSize * gridSize;
 
         //Reset the html table
         table.innerHTML = "";
@@ -50,10 +63,14 @@ const init = (() => {
                 cell.element = document.createElement("td");
                 cell.element.addEventListener("click", () => {
                     if (!cell.state) {
+                        cellAmount--;
                         const player = switchPlayers();
                         cell.element.classList.add(player ? "cell-is-x" : "cell-is-y");
                         cell.state = player ? "x" : "y"
                         stateCheck();
+                        if (cellAmount == 0) {
+                            setTimeout(() => confirm("No cells left") && init(), 100);
+                        }
                     }
                 })
                 r.append(cell.element);
