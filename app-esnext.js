@@ -68,9 +68,9 @@ const init = (() => {
             //Vertical
             ...new Array(gridSize).fill(null).map((v, i) => grid.map(row => row[i])),
             //Diagonal bottomLeft to topRight case
-            ...new Array(gridSize).fill(null).map((v, i) => grid[i][gridSize - i - 1]),
+            new Array(gridSize).fill(null).map((v, i) => grid[i][gridSize - i - 1]),
             //Diagonal topLeft to bottomRight case
-            ...new Array(gridSize).fill(null).map((v, i) => grid[i][i])
+            new Array(gridSize).fill(null).map((v, i) => grid[i][i])
         ];
     }
 
